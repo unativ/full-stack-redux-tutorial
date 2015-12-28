@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import {List} from 'immutable';
 import Voting from '../../src/components/Voting';
 import {expect} from 'chai';
 
@@ -66,5 +67,19 @@ describe('Voting', () => {
     expect(winner.textContent).to.contain('Trainspotting');
   });
 
+  it('renders as a pure component', () => {
+    const pair = ['Trainspotting', '28 Days Later'];
+    const component = renderIntoDocument(
+      <Voting pair={pair} />
+    );
+
+    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Trainspotting');
+
+    pair[0] = 'Sunshine';
+    component.setProps({pair: pair});
+    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Trainspotting');
+  });
 });
 
